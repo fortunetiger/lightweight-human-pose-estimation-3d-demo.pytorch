@@ -45,6 +45,8 @@ if __name__ == '__main__':
     parser.add_argument('--fx', type=np.float32, default=-1, help='Optional. Camera focal length.')
     args = parser.parse_args()
 
+    print(cv2.__version__)
+
     if args.video == '' and args.images == '':
         raise ValueError('Either --video or --image has to be provided')
 
@@ -108,7 +110,8 @@ if __name__ == '__main__':
             edges = (Plotter3d.SKELETON_EDGES + 19 * np.arange(poses_3d.shape[0]).reshape((-1, 1, 1))).reshape((-1, 2))
         plotter.plot(canvas_3d, poses_3d, edges)
         cv2.imshow(canvas_3d_window_name, canvas_3d)
-
+        cv2.imwrite(canvas_3d_window_name+'.png',canvas_3d)
+        
         draw_poses(frame, poses_2d)
         current_time = (cv2.getTickCount() - current_time) / cv2.getTickFrequency()
         if mean_time == 0:
